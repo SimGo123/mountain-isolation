@@ -85,6 +85,8 @@ def isolation_to_meters(isolation_str: str):
         print(f"Error: Unexpected unit {splitted[1]} in str '{isolation_str}'")
     
 
+# Loop till no other higher mountain can be found
+# This either terminates at Mt. Everest (hopefully) or at an undocumented peak
 def loop(mtn_name, prev=[]):
     print(mtn_name + ', ')
     wikipedia.set_lang('de')
@@ -107,14 +109,24 @@ def loop(mtn_name, prev=[]):
         return prev
     isolation_data = str(info_dict['Dominanz'])
     isolation_dist = isolation_to_meters(isolation_data)
-    next_highest = isolation_data.split('[[')[1].split(']]')[0]
-    prev.append([
-        {'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation_dist':isolation_dist, 'next_high':next_highest}, 
-        info_dict])
+    try:
+        next_highest = isolation_data.split('[[')[1].split(']]')[0]
+        prev.append([
+            {'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation_dist':isolation_dist, 'next_high':next_highest}, 
+            info_dict])
+    except Exception as e:
+        print(f"Exception parsing '{isolation_data}': {e}")
+        prev.append([
+            {'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation_dist':isolation_dist}, 
+            info_dict])
+        return prev
     if '(Seite nicht vorhanden)' in next_highest:
+        prev.append([
+            {'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation_dist':isolation_dist}, 
+            info_dict])
         return prev
     
     return loop(next_highest, prev)
 
-# ret = loop('Piz Morteratsch')
+# ret = loop('Eiskarlspitze')
 # print('r',ret)

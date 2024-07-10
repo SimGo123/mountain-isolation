@@ -7,7 +7,7 @@ function wikiSearchUpdate() {
         return;
     }
     
-    fetch(`/cgi-bin/opensearch_script.py?query=${encodeURIComponent(searchTerm)}`)
+    fetch(`/cgi-bin/wiki_opensearch_client.py?query=${encodeURIComponent(searchTerm)}`)
         .then(response => response.json())
         .then(data => {
             if (searchTerm == document.getElementById('wikiInput').value.trim()) { // Check if still up to date
