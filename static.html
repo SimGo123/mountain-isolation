@@ -17,43 +17,34 @@
     crossorigin=""></script>
     <script src="../leaflet.geometryutil.js"></script>
     <script src="../leaflet-arrowheads.js"></script>
+    <script src="../wikiSearchScript.js"></script>
     <script src="../isolationMapping.js"></script>
 </head>
 <h1>Isolation</h1>
 
 <body>
-    <form action="index.py" method="post" id="wikiSearch">
-        <label for="inputText">Search Wiki for a mountain:</label>
-        <input type="text" id="wikiInputText" name="inputText" placeholder="Hochvogel" required>
-        <button type="submit">Submit</button>
+    <form action="index.py" method="post" id="wikiSearchForm">
+        <input type="text" id="wikiInput" name="mountain" placeholder="Search Wikipedia..."
+            onkeyup="wikiSearchUpdate()">
+        <div id="results">
+            <a>Zugspitze</a>
+            <a>Hochvogel</a>
+            <a>Talelespitze</a>
+        </div>
     </form>
-    <form action="index.py" method="post">
+    <!-- <form action="index.py" method="post">
         <label for="inputText">Mountain to start:</label>
-        <input type="text" id="inputText" name="inputText" placeholder="Hochvogel" required>
+        <input type="text" id="inputText" name="mountain" placeholder="Hochvogel" required>
         <button type="submit">Submit</button>
-    </form>
+    </form> -->
     <p>
-        Hier soll die Isolation von Bergen dargestellt werden (Abstand zum nächsthöheren).
+        Hier soll die Isolation von Bergen (= Abstand zum nächsthöheren) dargestellt werden.
     </p>
     <!-- Marker anzeigen: <input id="cbshowMarker" type="checkbox" checked="true"/><br /> -->
     <p></p>
     <div id="osm"></div>
 </body>
 <script>
-    // Button-Klick verarbeiten
-    // var bu = document.getElementById("buSubmit");
-    // bu.addEventListener('click', function () {{
-    //     var cacheNr = document.getElementById("cacheNr").value;
-    //     var showMarker = document.getElementById("cbshowMarker").checked;
-    //     changeCacheNr(cacheNr, showMarker, 0, 10000);
-    // }});
-    document.addEventListener('DOMContentLoaded', function() {{
-        var wikiInput = document.getElementById("wikiInputText");
-        wikiInput.addEventListener('input', function() {{
-            console.log("Input changed to: " + wikiInput.value);
-        }});
-    }});
-
     setupMap();
     drawIsoList({iso_list});
 </script>

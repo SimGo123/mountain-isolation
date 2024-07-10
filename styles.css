@@ -1,4 +1,42 @@
 #osm {
     width: 80%;
     height: 550px;
+    z-index: 3;
+}
+
+#wikiInput {
+    box-sizing: border-box;
+    background-image: url('../searchlens.png');
+    background-size: 30px;
+    background-position: 7px 5px;
+    background-repeat: no-repeat;
+    font-size: 16px;
+    padding: 14px 20px 12px 45px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    min-width: 350px;
+    max-width: 350px;
+  }
+
+#wikiSearchForm {
+    /* display: none; */
+    /* position: absolute; */
+    /* background-color: #837b7b; */
+    background-color: white;
+    min-width: 350px;
+    max-width: 350px;
+    /* overflow: auto; */
+    border: 1px solid black;
+    z-index: 10;
+}
+
+/* #results {
+    position: absolute;
+} */
+
+#wikiSearchForm a {
+    color: black;
+    padding: 4px 16px;
+    text-decoration: none;
+    display: block;
 }
