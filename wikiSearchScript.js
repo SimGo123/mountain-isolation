@@ -1,5 +1,3 @@
-var typingTimer; // Timer for input debounce
-
 function wikiSearchUpdate() {
     var searchTerm = document.getElementById('wikiInput').value.trim();
     if (!searchTerm) {

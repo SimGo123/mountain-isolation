@@ -30,12 +30,15 @@ function cleanup() {
 
 function drawIsoList(iso_list) {
     cleanup();
+    let mountainListDiv = document.getElementById('mountainList');
+    mountainListDiv.innerHTML = '';
 
     let start = true;
-    const colors = ['red','blue','green','orange','violet', 'yellow']
+    const colors = ['red','blue','green','orange','violet', 'yellow'];
     for (let i = 0; i < iso_list.length; i++) {
         let fixedParams = iso_list[i][0];
         let name = fixedParams['name'];
+        mountainListDiv.innerHTML += name + ' - ';
         let height = fixedParams['height'];
         let isolation_dist = 0;
         if (fixedParams.hasOwnProperty('isolation_dist')) {
@@ -104,5 +107,9 @@ function drawIsoList(iso_list) {
         }
         // Setze jetzigen Punkt als nachher vorheriger ;)
         prevPoint = currPoint;
+    }
+
+    if (mountainListDiv.innerHTML.length >= 2) {
+        mountainListDiv.innerHTML = mountainListDiv.innerHTML.substring(0, mountainListDiv.innerHTML.length-2);
     }
 }

@@ -88,7 +88,7 @@ def isolation_to_meters(isolation_str: str):
 # Loop till no other higher mountain can be found
 # This either terminates at Mt. Everest (hopefully) or at an undocumented peak
 def loop(mtn_name, prev=[]):
-    print(mtn_name + ', ')
+    # print(mtn_name + ', ')
     wikipedia.set_lang('de')
     page = wikipedia.WikipediaPage(mtn_name)
     info_dict = get_info_table_dict(page.html())
