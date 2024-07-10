@@ -20,7 +20,8 @@ def get_info_table_dict(html: str):
     table = soup.find('table', class_='infobox')
 
     if not table:
-        return None
+        print("Error: Page doesn't contain table")
+        return {}
 
     # Extract column headers from the table
     headers = []
@@ -90,7 +91,11 @@ def isolation_to_meters(isolation_str: str):
 def loop(mtn_name, prev=[]):
     # print(mtn_name + ', ')
     wikipedia.set_lang('de')
-    page = wikipedia.WikipediaPage(mtn_name)
+    try:
+        page = wikipedia.WikipediaPage(mtn_name)
+    except Exception as e:
+        print('Error: Wiki page loading error:',e)
+        return prev
     info_dict = get_info_table_dict(page.html())
 
     try:
@@ -101,7 +106,11 @@ def loop(mtn_name, prev=[]):
         dec_coords = page_en.coordinates
     float_coords = [float(dec_coords[0]), float(dec_coords[1])]
 
-    height = height_to_meters(info_dict['Höhe'])
+    if 'Höhe' in info_dict:
+        height = height_to_meters(info_dict['Höhe'])
+    else:
+        print('Error: Probably not a mountain')
+        return prev
     if not all(k in info_dict for k in ['Dominanz']):
         prev.append([
             {'name':mtn_name, 'height':height, 'coords':float_coords}, 
@@ -115,7 +124,7 @@ def loop(mtn_name, prev=[]):
             {'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation_dist':isolation_dist, 'next_high':next_highest}, 
             info_dict])
     except Exception as e:
-        print(f"Exception parsing '{isolation_data}': {e}")
+        print(f"Error: Can't parse '{isolation_data}'")
         prev.append([
             {'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation_dist':isolation_dist}, 
             info_dict])

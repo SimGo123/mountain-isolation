@@ -33,6 +33,7 @@ function displayResults(data, searchTerm) {
         resultItem.classList.add('result-item');
         resultItem.innerHTML = result.replace(searchTerm, `<b>${searchTerm}</b>`);
         resultItem.addEventListener('click', function() {
+            clearResults();
             document.getElementById('wikiInput').value = result;
             document.getElementById('wikiSearchForm').submit();
         });
