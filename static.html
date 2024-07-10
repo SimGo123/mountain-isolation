@@ -19,10 +19,16 @@
     <script src="../leaflet-arrowheads.js"></script>
     <script src="../wikiSearchScript.js"></script>
     <script src="../isolationMapping.js"></script>
+    <script>
+        let iso_list = {iso_list};
+    </script>
 </head>
-<h1>Isolation</h1>
 
 <body>
+    <h1>Isolation</h1>
+    <p>
+        Hier soll die Isolation von Bergen (= Abstand zum nächsthöheren) dargestellt werden.
+    </p>
     <form action="index.py" method="get" id="wikiSearchForm">
         <input type="text" id="wikiInput" name="mountain" placeholder="Search Wikipedia..."
             onkeyup="wikiSearchUpdate()">
@@ -37,10 +43,9 @@
         <input type="text" id="inputText" name="mountain" placeholder="Hochvogel" required>
         <button type="submit">Submit</button>
     </form> -->
-    <p>
-        Hier soll die Isolation von Bergen (= Abstand zum nächsthöheren) dargestellt werden.
-    </p>
-    <!-- Marker anzeigen: <input id="cbshowMarker" type="checkbox" checked="true"/><br /> -->
+    <p></p>
+    <input id="cbShowMarker" type="checkbox" checked="true" onclick="drawIsoList(iso_list)"/> Show markers <br />
+    <input id="cbShowCircle" type="checkbox" checked="true" onclick="drawIsoList(iso_list)"/> Show isolation circles <br />
     <p></p>
     <div id="container">
         <div id="osm"></div>
@@ -48,7 +53,7 @@
 </body>
 <script>
     setupMap();
-    drawIsoList({iso_list});
+    drawIsoList(iso_list);
 </script>
 
 </html>
