@@ -10,7 +10,9 @@ function wikiSearchUpdate() {
     fetch(`/cgi-bin/opensearch_script.py?query=${encodeURIComponent(searchTerm)}`)
         .then(response => response.json())
         .then(data => {
-            displayResults(data);
+            if (searchTerm == document.getElementById('wikiInput').value.trim()) { // Check if still up to date
+                displayResults(data, searchTerm);
+            }
         })
         .catch(error => {
             console.error('Error fetching data:', error);
@@ -18,7 +20,7 @@ function wikiSearchUpdate() {
         });
 }
 
-function displayResults(data) {
+function displayResults(data, searchTerm) {
     var searchResults = data[1]; // Array of search results
     var resultsContainer = document.getElementById('results');
     resultsContainer.innerHTML = ''; // Clear previous results
@@ -31,7 +33,7 @@ function displayResults(data) {
     searchResults.forEach(result => {
         var resultItem = document.createElement('a');
         resultItem.classList.add('result-item');
-        resultItem.textContent = result;
+        resultItem.innerHTML = result.replace(searchTerm, `<b>${searchTerm}</b>`);
         resultItem.addEventListener('click', function() {
             document.getElementById('wikiInput').value = result;
             document.getElementById('wikiSearchForm').submit();

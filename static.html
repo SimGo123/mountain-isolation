@@ -27,9 +27,9 @@
         <input type="text" id="wikiInput" name="mountain" placeholder="Search Wikipedia..."
             onkeyup="wikiSearchUpdate()">
         <div id="results">
-            <a>Zugspitze</a>
+            <!-- <a>Zugspitze</a>
             <a>Hochvogel</a>
-            <a>Talelespitze</a>
+            <a>Talelespitze</a> -->
         </div>
     </form>
     <!-- <form action="index.py" method="post">
@@ -42,7 +42,9 @@
     </p>
     <!-- Marker anzeigen: <input id="cbshowMarker" type="checkbox" checked="true"/><br /> -->
     <p></p>
-    <div id="osm"></div>
+    <div id="container">
+        <div id="osm"></div>
+    </div>
 </body>
 <script>
     setupMap();
