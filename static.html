@@ -23,7 +23,7 @@
 <h1>Isolation</h1>
 
 <body>
-    <form action="index.py" method="post" id="wikiSearchForm">
+    <form action="index.py" method="get" id="wikiSearchForm">
         <input type="text" id="wikiInput" name="mountain" placeholder="Search Wikipedia..."
             onkeyup="wikiSearchUpdate()">
         <div id="results">
@@ -32,7 +32,7 @@
             <a>Talelespitze</a> -->
         </div>
     </form>
-    <!-- <form action="index.py" method="post">
+    <!-- <form action="index.py" method="get">
         <label for="inputText">Mountain to start:</label>
         <input type="text" id="inputText" name="mountain" placeholder="Hochvogel" required>
         <button type="submit">Submit</button>

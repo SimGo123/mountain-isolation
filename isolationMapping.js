@@ -14,14 +14,28 @@ function setupMap() {
 
 function drawIsoList(iso_list) {
     let start = true;
+    const colors = ['red','blue','green','orange','violet', 'yellow']
     for (let i = 0; i < iso_list.length; i++) {
         let fixedParams = iso_list[i][0];
         let name = fixedParams['name'];
         let height = fixedParams['height'];
+        let isolation_dist = 0;
+        if (fixedParams.hasOwnProperty('isolation_dist')) {
+            isolation_dist = fixedParams['isolation_dist'];
+        }
         let coords = fixedParams['coords'];
         // console.log(iso_list[i]);
 
-        var marker = L.marker([coords[0], coords[1]]).addTo(osm);
+        let color_to_use = colors[i % colors.length];
+        var greenIcon = new L.Icon({
+            iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color_to_use}.png`,
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+          });
+        var marker = L.marker([coords[0], coords[1]], {icon: greenIcon}).addTo(osm);
         markerList.push(marker);
         // Popup-Text für den Marker
         infoboxComplete = iso_list[i][1];
@@ -43,7 +57,10 @@ function drawIsoList(iso_list) {
         // Koordinaten: ${coords[0].toFixed(4)},${coords[1].toFixed(4)}`;
         marker.bindPopup(markerTxt);
 
-        L.circle([coords[0], coords[1]], 1600).addTo(osm);
+        L.circle([coords[0], coords[1]], {
+            radius: isolation_dist,
+            color: color_to_use
+        }).addTo(osm);
 
         let currPoint = new L.LatLng(coords[0], coords[1]);
         // Für eine Linie brauchen wir 2 Punkte - am Anfang darf also noch keine Linie gezeichnet werden

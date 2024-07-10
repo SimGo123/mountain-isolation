@@ -65,6 +65,26 @@ def get_info_table_dict(html: str):
 
     return data_dict
 
+
+def height_to_meters(height_str: str):
+    # Expect: '3751\xa0m\xa0ü.\xa0M.'
+    splitted = height_str.split('\xa0')
+    height_num = float(splitted[0].replace('.','').replace(',','.'))
+    if splitted[1] == 'm':
+        return height_num
+    else:
+        print(f"Error: Unexpected unit {splitted[1]} in str '{height_str}'")
+
+def isolation_to_meters(isolation_str: str):
+    # Expected: '62,98\xa0km →\xa0[[Distaghil Sar]]'
+    splitted = isolation_str.split('\xa0')
+    isolation_num = float(splitted[0].replace('.','').replace(',','.'))
+    if splitted[1].startswith('km'):
+        return isolation_num * 1000
+    else:
+        print(f"Error: Unexpected unit {splitted[1]} in str '{isolation_str}'")
+    
+
 def loop(mtn_name, prev=[]):
     print(mtn_name + ', ')
     wikipedia.set_lang('de')
@@ -79,13 +99,18 @@ def loop(mtn_name, prev=[]):
         dec_coords = page_en.coordinates
     float_coords = [float(dec_coords[0]), float(dec_coords[1])]
 
-    height = info_dict['Höhe']
+    height = height_to_meters(info_dict['Höhe'])
     if not all(k in info_dict for k in ['Dominanz']):
-        prev.append([{'name':mtn_name, 'height':height, 'coords':float_coords}, info_dict])
+        prev.append([
+            {'name':mtn_name, 'height':height, 'coords':float_coords}, 
+            info_dict])
         return prev
     isolation_data = str(info_dict['Dominanz'])
+    isolation_dist = isolation_to_meters(isolation_data)
     next_highest = isolation_data.split('[[')[1].split(']]')[0]
-    prev.append([{'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation':isolation_data, 'next_high':next_highest}, info_dict])
+    prev.append([
+        {'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation_dist':isolation_dist, 'next_high':next_highest}, 
+        info_dict])
     if '(Seite nicht vorhanden)' in next_highest:
         return prev
     
