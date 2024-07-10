@@ -1,4 +1,3 @@
-// Projekt am 09.07.2024 - 
 let prevPoint = null;
 var osm = null;
 var markerList = [];
@@ -16,20 +15,35 @@ function setupMap() {
 function drawIsoList(iso_list) {
     let start = true;
     for (let i = 0; i < iso_list.length; i++) {
-        let name = iso_list[i]['name'];
-        let height = iso_list[i]['height'];
-        let coords = iso_list[i]['coords'];
+        let fixedParams = iso_list[i][0];
+        let name = fixedParams['name'];
+        let height = fixedParams['height'];
+        let coords = fixedParams['coords'];
         // console.log(iso_list[i]);
 
         var marker = L.marker([coords[0], coords[1]]).addTo(osm);
         markerList.push(marker);
         // Popup-Text für den Marker
-        const txt = `
-        <h3>${name}</h3>
-        ${height} m<br />
-        <a href="https://de.wikipedia.org/wiki/${name}">Wiki</a><br />
-        Koordinaten: ${coords[0].toFixed(4)},${coords[1].toFixed(4)}`;
-        marker.bindPopup(txt);
+        infoboxComplete = iso_list[i][1];
+        infoboxComplete['Koordinaten'] = `${coords[0].toFixed(5)},${coords[1].toFixed(5)}`;
+        let markerTxt = `<h3>${name}</h3>`;
+        for (const key in infoboxComplete) {
+            if (infoboxComplete.hasOwnProperty(key)) {
+                if (key == 'image') {
+                    markerTxt += `<img src='${infoboxComplete[key]}' width='200px'><br />`
+                } else {
+                    markerTxt += `<b>${key}:</b> ${infoboxComplete[key]}<br />`;
+                }
+            }
+        }
+        // const txt = `
+        // <h3>${name}</h3>
+        // ${height} m<br />
+        // <a href="https://de.wikipedia.org/wiki/${name}">Wiki</a><br />
+        // Koordinaten: ${coords[0].toFixed(4)},${coords[1].toFixed(4)}`;
+        marker.bindPopup(markerTxt);
+
+        L.circle([coords[0], coords[1]], 1600).addTo(osm);
 
         let currPoint = new L.LatLng(coords[0], coords[1]);
         // Für eine Linie brauchen wir 2 Punkte - am Anfang darf also noch keine Linie gezeichnet werden
@@ -37,7 +51,6 @@ function drawIsoList(iso_list) {
             start = false;
         }
         else {
-            // Zeichne Linie vom letzten zum jetzigen Punkt
             var line = new L.Polyline([prevPoint, currPoint], {
                 color: 'black',
                 weight: 3,
@@ -45,9 +58,9 @@ function drawIsoList(iso_list) {
                 smoothFactor: 1
             });
             line.arrowheads({
-                size: '10px',  // Arrowhead size
-                fill: true,  // Fill arrowhead
-                fillOpacity: 0.8  // Arrowhead opacity
+                size: '10px',
+                fill: true,
+                fillOpacity: 0.8
             });
             lineList.push(line);
             line.addTo(osm);
