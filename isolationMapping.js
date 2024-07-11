@@ -6,8 +6,11 @@ var circleList = [];
 
 var osm = null;
 var iso_list = [];
+var heightGraph = null;
 
 document.addEventListener('DOMContentLoaded', function() {
+    setupMap();
+
     const mountainParam = 'mountain';
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has(mountainParam)) {
@@ -15,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
         startIsolationLoop(mountain);
     }
 });
-
 
 // Starts the isolation loop
 // Uses Server-Sent Events (SSE) protocol to get updates during loop execution
@@ -36,13 +38,15 @@ function startIsolationLoop(mountain) {
     });
 
     eventSource.addEventListener('errorx', function(event) {
+        document.getElementById('errorBox').style = 'visibility: visible;';
+        document.getElementById('errorBox').innerHTML += `<strong>Error:</strong> ${event.data}<br />`
         console.log('errorx '+event.data);
     });
 
     eventSource.addEventListener('return', function(event) {
         iso_list = JSON.parse(event.data);
         drawIsoList();
-        document.getElementById('mountainLoader').style = 'visibility: hidden;'
+        document.getElementById('mountainLoader').style = 'visibility: hidden;';
     });
 
     eventSource.onerror = function() {{
@@ -108,6 +112,7 @@ function drawIsoList(changeMapPos=false) {
         let isStart = i==0;
         drawLine(isStart, coords)
     }
+    drawHeightGraph(false);
 
     if (mountainListDiv.innerHTML.length >= 2) {
         mountainListDiv.innerHTML = mountainListDiv.innerHTML.substring(0, mountainListDiv.innerHTML.length-2);
@@ -172,4 +177,60 @@ function drawLine(isStart, coords) {
     }
     // Set the current point to become the later previous one ;)
     prevPoint = currPoint;
+}
+
+function drawHeightGraph(redraw) {
+    let names = [];
+    let heights = [];
+    for (let i = 0; i < iso_list.length; i++) {
+        let fixedParams = iso_list[i][0];
+        let name = fixedParams['name'];
+        let height = fixedParams['height'];
+        names.push(name);
+        heights.push(height);
+    }
+    if (!heightGraph || redraw) {
+        heightGraph = new Highcharts.Chart({
+            chart: {renderTo: 'heightGraph'},
+            title: {text: 'Height Graph of Visited Mountains'},
+            xAxis: {title: {text: 'Visited Mountains'}, /*categories:,*/ crosshair: true},
+            yAxis: [
+                {
+                    title: {
+                        text: 'Height (m)',
+                        style: {
+                            color: 'black'
+                        }
+                    },
+                    labels: {
+                        format: '{value}m',
+                        style: {
+                            color: 'black'
+                        }
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: 'Height', 
+                    data: heights.map((height, index) => ({
+                        y: height,
+                        name: names[index]
+                    })), 
+                    type: 'spline',
+                    tooltip: {
+                        valueSuffix: ' m'
+                    },
+                    color: 'red'
+                }
+            ]
+        });
+    } else {
+        heightGraph.series[0].setData(
+            heights.map((height, index) => ({
+                y: height,
+                name: names[index]
+            }))
+        );
+    }
 }

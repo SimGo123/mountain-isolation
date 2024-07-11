@@ -83,3 +83,16 @@ body, html {
 #mountainResTable {
     margin-top: 20px;
 }
+
+#errorBox {
+    background: rgb(239, 165, 155);
+    color: rgb(180,0,0);
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgb(240,100,100);
+}
+
+#heightGraph {
+    width: 30%;
+}

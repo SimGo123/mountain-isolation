@@ -145,7 +145,7 @@ def loop(mtn_name, prev=[]):
         print()
         sys.stdout.flush()
     except Exception as e:
-        send_error_msg(f"Can't parse '{isolation_data}'")
+        send_error_msg(f"Can't parse '{isolation_data}' (probably no link)")
         prev.append([
             {'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation_dist':isolation_dist}, 
             info_dict])

@@ -17,6 +17,13 @@
     crossorigin=""></script>
     <script src="../leaflet.geometryutil.js"></script>
     <script src="../leaflet-arrowheads.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
     <script src="../wikiSearchScript.js"></script>
     <script src="../isolationMapping.js"></script>
 </head>
@@ -51,12 +58,15 @@
                     <span class="inline-block" id="mountainList"></span>
                 </td>
             </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div id="errorBox" style="visibility: hidden;"></div>
+                </td>
+            </tr>
         </table>
+        <div id="heightGraph" style="visibility: visible;">
     </div>
 </body>
-<script>
-    setupMap();
-    drawIsoList();
-</script>
 
 </html>
