@@ -7,16 +7,21 @@ var circleList = [];
 var osm = null;
 var iso_list = [];
 
-const mountainParam = 'mountain';
-const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.has(mountainParam)) {
-    let mountain = urlParams.get(mountainParam);
-    startIsolationLoop(mountain);
-}
+document.addEventListener('DOMContentLoaded', function() {
+    const mountainParam = 'mountain';
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has(mountainParam)) {
+        let mountain = urlParams.get(mountainParam);
+        startIsolationLoop(mountain);
+    }
+});
+
 
 // Starts the isolation loop
 // Uses Server-Sent Events (SSE) protocol to get updates during loop execution
 function startIsolationLoop(mountain) {
+    document.getElementById('mountainLoader').style = 'visibility: visible;';
+
     const eventSource = new EventSource(`wiki_isolation_looper.py?mountain=${mountain}`);
     let isStart = true;
 
@@ -37,6 +42,7 @@ function startIsolationLoop(mountain) {
     eventSource.addEventListener('return', function(event) {
         iso_list = JSON.parse(event.data);
         drawIsoList();
+        document.getElementById('mountainLoader').style = 'visibility: hidden;'
     });
 
     eventSource.onerror = function() {{

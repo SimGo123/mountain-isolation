@@ -28,7 +28,7 @@
     </p>
     
     <form action="index.py" method="get" id="wikiSearchForm">
-        <input type="text" id="wikiInput" name="mountain" placeholder="Search Wiki for a Mountain..."
+        <input type="text" id="wikiInput" name="mountain" autocomplete="off" placeholder="Search Wiki for a Mountain..."
             onkeyup="wikiSearchUpdate()">
         <div id="results">
             <!-- <a>Zugspitze</a>
@@ -41,8 +41,18 @@
     <p></p>
     <div id="container">
         <div id="osm"></div>
+        
+        <table id="mountainResTable">
+            <tr>
+                <td>
+                    <div class="loader inline-block" id="mountainLoader" style="visibility: hidden;"></div>
+                </td>
+                <td>
+                    <span class="inline-block" id="mountainList"></span>
+                </td>
+            </tr>
+        </table>
     </div>
-    <div id="mountainList"></div>
 </body>
 <script>
     setupMap();
