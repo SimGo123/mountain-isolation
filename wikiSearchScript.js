@@ -15,7 +15,8 @@ function wikiSearchUpdate() {
         .catch(error => {
             console.error('Error fetching data:', error);
             displayError('Error fetching data. Please try again later.');
-        });
+        }
+    );
 }
 
 function displayResults(data, searchTerm) {
