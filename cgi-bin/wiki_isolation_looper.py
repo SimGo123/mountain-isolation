@@ -1,6 +1,23 @@
+#!/usr/bin/python3
+
+import cgi
+import cgitb
+import sys
+import json
 import wikipedia
 from bs4 import BeautifulSoup
 from bs4.element import NavigableString
+
+cgitb.enable()
+
+print("Content-Type: text/event-stream")
+print()
+sys.stdout.flush()
+
+def send_error_msg(error_msg):
+    print(f"event: errorx\ndata: {error_msg}")
+    print()
+    sys.stdout.flush()
 
 def ignore_display_none(tag):
     # Function to filter out elements with display: none
@@ -20,7 +37,7 @@ def get_info_table_dict(html: str):
     table = soup.find('table', class_='infobox')
 
     if not table:
-        print("Error: Page doesn't contain table")
+        send_error_msg("Page doesn't contain table")
         return {}
 
     # Extract column headers from the table
@@ -71,10 +88,10 @@ def height_to_meters(height_str: str):
     # Expect: '3751\xa0m\xa0ü.\xa0M.'
     splitted = height_str.split('\xa0')
     height_num = float(splitted[0].replace('.','').replace(',','.'))
-    if splitted[1] == 'm':
+    if splitted[1].startswith('m'):
         return height_num
     else:
-        print(f"Error: Unexpected unit {splitted[1]} in str '{height_str}'")
+        send_error_msg(f"Unexpected unit '{splitted[1]}' in str '{height_str}'")
 
 def isolation_to_meters(isolation_str: str):
     # Expected: '62,98\xa0km →\xa0[[Distaghil Sar]]'
@@ -83,7 +100,7 @@ def isolation_to_meters(isolation_str: str):
     if splitted[1].startswith('km'):
         return isolation_num * 1000
     else:
-        print(f"Error: Unexpected unit {splitted[1]} in str '{isolation_str}'")
+        send_error_msg(f"Unexpected unit {splitted[1]} in str '{isolation_str}'")
     
 
 # Loop till no other higher mountain can be found
@@ -94,7 +111,7 @@ def loop(mtn_name, prev=[]):
     try:
         page = wikipedia.WikipediaPage(mtn_name)
     except Exception as e:
-        print('Error: Wiki page loading error:',e)
+        send_error_msg('Error fetching wiki page: ' + str(e))
         return prev
     info_dict = get_info_table_dict(page.html())
 
@@ -109,7 +126,7 @@ def loop(mtn_name, prev=[]):
     if 'Höhe' in info_dict:
         height = height_to_meters(info_dict['Höhe'])
     else:
-        print('Error: Probably not a mountain')
+        send_error_msg(f"{mtn_name}' is probably not a page about a mountain")
         return prev
     if not all(k in info_dict for k in ['Dominanz']):
         prev.append([
@@ -123,19 +140,32 @@ def loop(mtn_name, prev=[]):
         prev.append([
             {'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation_dist':isolation_dist, 'next_high':next_highest}, 
             info_dict])
+        
+        print(f"event: step\ndata: {json.dumps(prev)}")
+        print()
+        sys.stdout.flush()
     except Exception as e:
-        print(f"Error: Can't parse '{isolation_data}'")
+        send_error_msg(f"Can't parse '{isolation_data}'")
         prev.append([
             {'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation_dist':isolation_dist}, 
             info_dict])
         return prev
     if '(Seite nicht vorhanden)' in next_highest:
-        prev.append([
-            {'name':mtn_name, 'height':height, 'coords':float_coords, 'isolation_dist':isolation_dist}, 
-            info_dict])
+        send_error_msg(f"Page doesn't exist: '{next_highest}'")
         return prev
     
     return loop(next_highest, prev)
 
-# ret = loop('Eiskarlspitze')
-# print('r',ret)
+form = cgi.FieldStorage()
+mountain = form.getvalue('mountain')
+iso_list = loop(mountain)
+
+# iso_list = loop('Kongur')
+
+# with open(os.path.join(parent_dir, 'iso_list_example.txt'), 'r') as f:
+#     list_str = f.read()
+#     iso_list = ast.literal_eval(list_str)
+
+print(f"event: return\ndata: {json.dumps(iso_list)}")
+print()
+sys.stdout.flush()

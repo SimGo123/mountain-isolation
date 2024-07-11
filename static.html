@@ -19,9 +19,6 @@
     <script src="../leaflet-arrowheads.js"></script>
     <script src="../wikiSearchScript.js"></script>
     <script src="../isolationMapping.js"></script>
-    <script>
-        let iso_list = {iso_list};
-    </script>
 </head>
 
 <body>
@@ -29,23 +26,18 @@
     <p>
         Extraction of the isolation of mountains (=distance to next highest peak) from Wiki and visualizing it
     </p>
+    
     <form action="index.py" method="get" id="wikiSearchForm">
         <input type="text" id="wikiInput" name="mountain" placeholder="Search Wiki for a Mountain..."
             onkeyup="wikiSearchUpdate()">
         <div id="results">
             <!-- <a>Zugspitze</a>
-            <a>Hochvogel</a>
-            <a>Talelespitze</a> -->
+            <a>Hochvogel</a> -->
         </div>
     </form>
-    <!-- <form action="index.py" method="get">
-        <label for="inputText">Mountain to start:</label>
-        <input type="text" id="inputText" name="mountain" placeholder="Hochvogel" required>
-        <button type="submit">Submit</button>
-    </form> -->
     <p></p>
-    <input id="cbShowMarker" type="checkbox" checked="true" onclick="drawIsoList(iso_list)"/> Show markers <br />
-    <input id="cbShowCircle" type="checkbox" checked="true" onclick="drawIsoList(iso_list)"/> Show isolation circles <br />
+    <input id="cbShowMarker" type="checkbox" checked="true" onclick="drawIsoList()"/> Show markers <br />
+    <input id="cbShowCircle" type="checkbox" checked="true" onclick="drawIsoList()"/> Show isolation circles <br />
     <p></p>
     <div id="container">
         <div id="osm"></div>
@@ -54,7 +46,7 @@
 </body>
 <script>
     setupMap();
-    drawIsoList(iso_list);
+    drawIsoList();
 </script>
 
 </html>
