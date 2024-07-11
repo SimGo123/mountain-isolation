@@ -126,7 +126,7 @@ def loop(mtn_name, prev=[]):
     if 'Höhe' in info_dict:
         height = height_to_meters(info_dict['Höhe'])
     else:
-        send_error_msg(f"{mtn_name}' is probably not a page about a mountain")
+        send_error_msg(f"'{mtn_name}' is probably not a page about a mountain")
         return prev
     if not all(k in info_dict for k in ['Dominanz']):
         prev.append([

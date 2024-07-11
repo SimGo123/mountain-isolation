@@ -167,11 +167,11 @@ function drawLine(isStart, coords) {
             opacity: 0.5,
             smoothFactor: 1
         });
-        line.arrowheads({
-            size: '10px',
-            fill: true,
-            fillOpacity: 0.8
-        });
+        // line.arrowheads({
+        //     size: '10px',
+        //     fill: true,
+        //     fillOpacity: 0.8
+        // });
         lineList.push(line);
         line.addTo(osm);
     }
