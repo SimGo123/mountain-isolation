@@ -47,13 +47,15 @@ Furthermore, a diagram depicting the height of the visited mountains is created 
 
 ## usage
 1. Enter a search term in the search box
-2. Once the desired article about a mountain appears, click on it (note that it might take more than 1 second for search results to load). Also note that an article name might be ambiguous. In that case, the German Wikipedia pages might add the word "Berg" or the corresponding mountain range in brackets to the title.
-3. The isolation and the path to Mount Everest are now shown on the map, mountain by mountain. The path may not get to Mount Everest. In that case, an error message is shown. It is most likely due to a missing Wiki article.
+2. Once the desired article about a mountain appears, click on it. Note that search results may take a few seconds to load. Also, article names might be ambiguous. In such cases, the German Wikipedia pages might have the word "Berg" or the corresponding mountain range in brackets in the title
+3. The isolation and the path to Mount Everest are now shown on the map, mountain by mountain. The path may not get to Mount Everest. In that case, an error message is shown. It is most likely due to a missing Wiki article
 4. Click on the markers to see additional facts from the infoboxes about the mountains. Also, check out the height chart below
 5. Hide and show markers and isolation circles by (un)checking the corresponding checkboxes
 
+For a no-backend demo, see the project's GitHub Page: [https://simgo123.github.io/mountain-isolation/](https://simgo123.github.io/mountain-isolation/)
+
 ## installation considerations
-- Note that your Web server has to support the Common Gateway Interface (CGI)
+- Note that your web server has to support the Common Gateway Interface (CGI)
 - Each Python file must start with a shebang (`#!`) followed by the path to the Python interpreter (here, it is assumed to be `/usr/bin/python3`)
 - The Python files have to be executable. To achieve the correct permissions, run `chmod +x /path/to/file.py` on Linux
 
