@@ -1,13 +1,13 @@
 # mountain-isolation
 Extraction of the isolation of mountains (=distance to next highest) from Wiki and visualizing it
 
-<img src="iso_circles_example.png" alt="Alt text" title="Title" height="190">
-<img src="everest_path_example.png" alt="Alt text" title="Title" height="190">
+<img src="iso_circles_example.png" alt="Isolation circles on the map" title="Isolation circles on the map" width="700px">
+<img src="everest_path_example.png" alt="Path to Mount Everest" title="Path to Mount Everest" width="700px">
 
 ## background
-Born in Bavaria, I went hiking in the Bavarian Alps from an early age.
+Growing up in Bavaria, I went hiking in the Bavarian Alps from an early age.
 And every time I reached the top of a mountain, I could see at least one that was higher.
-However, within in a certain radius around the peak, there is no higher mountain.
+However, within a certain radius around the peak, there is no higher mountain.
 The maximum radius is called the **isolation** of the mountain.
 
 Most articles about mountains in the German Wikipedia contain a reference to the next highest mountain and the isolation in their infobox.
@@ -16,7 +16,7 @@ Since Wikipedia has an API, I thought about working with the isolation of mounta
 ## goals
 The main goal is to use the Wikipedia API to visualize and work with the isolation of mountains.
 Currently, the main concern of this project are the following tasks:
-- Given a mountain, follow the link to the next highest peak until you reach Mount Everest. Visualize all isolations and the path to Mount Everest on a map.\
+- `select-mountain`: Given a mountain, follow the link to the next highest peak until you reach Mount Everest. Visualize all isolations and the path to Mount Everest on a map.\
 *Status: Mostly implemented*
 - For as many mountains as possible (i.e., a Wikipedia list of mountains in the Alps), draw their path to Mount Everest.\
 *Status: Not implemented yet*

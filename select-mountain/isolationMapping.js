@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function startIsolationLoop(mountain) {
     document.getElementById('mountainLoader').style = 'visibility: visible;';
 
-    const eventSource = new EventSource(`wiki_isolation_looper.py?mountain=${mountain}`);
+    const eventSource = new EventSource(`../cgi-bin/select-mountain-scripts/wiki_isolation_looper.py?mountain=${mountain}`);
     let isStart = true;
 
     eventSource.addEventListener('step', function(event) {
