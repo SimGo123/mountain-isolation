@@ -7,15 +7,18 @@ var circleList = [];
 var osm = null;
 var iso_list = [];
 var heightGraph = null;
+var demo = false;
 
 document.addEventListener('DOMContentLoaded', function() {
-    setupMap();
+    if (!demo) {
+        setupMap();
 
-    const mountainParam = 'mountain';
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has(mountainParam)) {
-        let mountain = urlParams.get(mountainParam);
-        startIsolationLoop(mountain);
+        const mountainParam = 'mountain';
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has(mountainParam)) {
+            let mountain = urlParams.get(mountainParam);
+            startIsolationLoop(mountain);
+        }
     }
 });
 
