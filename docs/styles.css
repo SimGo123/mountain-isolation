@@ -1,0 +1,98 @@
+body, html {
+    height: 80%;
+    margin: 10px 0px 0px 10px;
+    padding: 0;
+}
+
+#container {
+    display: block;
+    height: 100%;
+    width: 90%;
+}
+#osm {
+    width: 100%;
+    height: 90%;
+    z-index: 3;
+}
+
+#wikiInput {
+    box-sizing: border-box;
+    background-image: url('searchlens.png');
+    background-size: 20px;
+    background-position: right 7px top 9px;
+    background-repeat: no-repeat;
+    font-size: 16px;
+    padding: 10px 20px 10px 10px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    min-width: 350px;
+    max-width: 350px;
+}
+
+#wikiSearchForm {
+    background-color: white;
+    min-width: 350px;
+    max-width: 350px;
+    border: 1px solid black;
+}
+
+#wikiSearchForm a {
+    color: black;
+    padding: 4px 10px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+#results {
+    position: absolute;
+    background-color: white;
+    z-index: 10;
+    min-width: 350px;
+    max-width: 350px;
+}
+
+.loader {
+    border: 8px solid #dad4d4;
+    border-radius: 50%;
+    border-top: 8px solid #3498db;
+    width: 16px;
+    height: 16px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    margin-right: 10px;
+    margin-top: -4px;
+}
+  
+/* Safari */
+@-webkit-keyframes spin {
+0% { -webkit-transform: rotate(0deg); }
+100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+.inline-block {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#mountainResTable {
+    margin-top: 20px;
+}
+
+#errorBox {
+    background: rgb(239, 165, 155);
+    color: rgb(180,0,0);
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgb(240,100,100);
+}
+
+#heightGraph {
+    width: 30%;
+}
