@@ -1,8 +1,16 @@
 # mountain-isolation
-Extraction of the isolation of mountains (=distance to next highest) from Wiki and visualizing it
+Extraction of the isolation of mountains (=distance to next highest) from Wikipedia and visualization of it
 
 <img src="iso_circles_example.png" alt="Isolation circles on the map" title="Isolation circles on the map" width="700px">
 <img src="everest_path_example.png" alt="Path to Mount Everest" title="Path to Mount Everest" width="700px">
+
+## table of contents
+1. [background](#background)
+2. [goals](#goals)
+3. [implementation and design](#implementation-and-design)
+4. [usage](#usage)
+5. [installation considerations](#installation-considerations)
+6. [glossary](#glossary)
 
 ## background
 Growing up in Bavaria, I went hiking in the Bavarian Alps from an early age.
